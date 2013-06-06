@@ -30,6 +30,13 @@ module.exports = function(grunt) {
         dest: 'target/<%= pkg.name %>.min.js'
       }
     },
+    copy: {
+      main: {
+        files: [
+          { dest: 'example/radio.js', filter:'isFile', src: [' <%= concat.dist.dest %> '] }
+        ]
+      }
+    },
     jshint: {
       options: {
         curly: true,
@@ -73,8 +80,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-copy');
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
+  grunt.registerTask('default', ['jshint', 'concat', 'uglify', "copy:main"]);
 
 };
