@@ -1,30 +1,5 @@
-/**
- Radio.js - Chainable, Dependency Free Publish/Subscribe for Javascript
- http://radio.uxder.com
- Author: Scott Murphy 2011
- twitter: @hellocreation, github: uxder
-
- Permission is hereby granted, free of charge, to any person
- obtaining a copy of this software and associated documentation
- files (the "Software"), to deal in the Software without
- restriction, including without limitation the rights to use,
- copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the
- Software is furnished to do so, subject to the following
- conditions:
-
- The above copyright notice and this permission notice shall be
- included in all copies or substantial portions of the Software.
-
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- OTHER DEALINGS IN THE SOFTWARE.
- */
+/*! radio - v0.3.0 - 2013-06-06
+* Copyright (c) 2013 ; Licensed  */
 (function (name, global, definition) {
   if (typeof module !== 'undefined') module.exports = definition(name, global);
   else if (typeof define === 'function' && typeof define.amd  === 'object') define(definition);
@@ -43,7 +18,7 @@
   }
 
   radio.$ = {
-    version: '0.3',
+    version: '0.2',
     channelName: "",
     channels: [],
 
@@ -56,14 +31,14 @@
       radio.$.channelName = "";
       radio.$.channels = [];
     },
-
+ 
     /**
      * Broadcast (publish)
      * Iterate through all listeners (callbacks) in current channel and pass arguments to subscribers
      * @param arguments data to be sent to listeners
      * @example
      *    //basic usage
-     *    radio('channel1').broadcast('my message');
+     *    radio('channel1').broadcast('my message'); 
      *    //send an unlimited number of parameters
      *    radio('channel2').broadcast(param1, param2, param3 ... );
      */
@@ -106,14 +81,14 @@
      * @example
      *      //basic usage
      *      var callback = function() {};
-     *      radio('channel1').subscribe(callback);
+     *      radio('channel1').subscribe(callback); 
      *
      *      //subscribe an endless amount of callbacks
      *      radio('channel1').subscribe(callback, callback2, callback3 ...);
      *
      *      //adding callbacks with context
      *      radio('channel1').subscribe([callback, context],[callback1, context], callback3);
-     *
+     *     
      *      //subscribe by chaining
      *      radio('channel1').subscribe(callback).radio('channel2').subscribe(callback).subscribe(callback2);
      */
@@ -139,7 +114,7 @@
      * @param {Function} arguments callbacks separated by commas
      * @example
      *      //basic usage
-     *      radio('channel1').unsubscribe(callback);
+     *      radio('channel1').unsubscribe(callback); 
      *      //you can unsubscribe as many callbacks as you want
      *      radio('channel1').unsubscribe(callback, callback2, callback3 ...);
      *       //removing callbacks with context is the same

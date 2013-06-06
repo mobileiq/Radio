@@ -1,14 +1,27 @@
 {
   "name": "radio",
-  "description": "A small dependency-free publish/subscribe (pub/sub) javascript library",
-  "version": "0.2.0",
-  "homepage": "http://radio.uxder.com/",
-  "author": "Scott Murphy, @hellocreation",
-  "keywords": [ "pubsub", "pub/sub","publish","subscribe","events", "ender" ],
-  "main": "./radio.js",
-  "ender": "./ender.js",
+  "version": "0.3.0",
+  "description": "Radio.js - Chainable, Dependency Free Publish/Subscribe for Javascript ----------------------------------------------------------------------",
+  "main": "radio.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/uxder/Radio.git"
+    "url": "https://github.com/mobileiq/Radio.git"
+  },
+  "author": "",
+  "license": "BSD",
+  "gitHead": "d9b7c93ccc018e437ae98a6cf83652682ba0cfd2",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt-contrib-watch": "~0.4.4"
   }
 }
