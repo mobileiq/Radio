@@ -99,6 +99,22 @@
       return this;
     },
 
+    // Function to stop double subscriptions
+    checkSubscription: function( channel, ai ){
+
+      var l = channel.length;
+
+      for (var i=0;i<l;i++){
+
+        if (channel[i][0] === ai){
+          return true;
+        }
+
+      }
+      return false;
+
+    },
+
     /**
      * Add Subscriber to channel
      * Take the arguments and add it to the this.channels array.
@@ -125,10 +141,16 @@
 
       //run through each arguments and subscribe it to the channel
       for (i = 0; i < l; i++) {
+
         ai = a[i];
-        //if the user sent just a function, wrap the fucntion in an array [function]
-        p = (typeof(ai) === "function") ? [ai] : ai;
-        if ((typeof(p) === 'object') && (p.length)) c.push(p);
+
+        var alreadySubscribed = this.checkSubscription( c, ai );
+
+        if (!alreadySubscribed){
+          //if the user sent just a function, wrap the fucntion in an array [function]
+          p = (typeof(ai) === "function") ? [ai] : ai;
+          if ((typeof(p) === 'object') && (p.length)) c.push(p);
+        }
       }
       return this;
     },
