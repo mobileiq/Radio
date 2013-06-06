@@ -45,7 +45,7 @@
   radio.$ = {
     version: '0.3',
     channelName: "",
-    channels: [],
+    channels: {},
 
     /**
      * Reset global state, by removing all channels
@@ -54,7 +54,7 @@
      */
     reset: function() {
       radio.$.channelName = "";
-      radio.$.channels = [];
+      radio.$.channels = {};
     },
 
     /**
