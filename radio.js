@@ -176,7 +176,10 @@
           //if the user sent just a function, wrap the fucntion in an array [function]
           p = (typeof(ai) === "function") ? [ai] : ai;
           if ((typeof(p) === 'object') && (p.length)) c.push(p);
+        }else{
+          console.log( 'Duplicate subscriptions within channel: ' + this.channelName );
         }
+
       }
       return this;
     },

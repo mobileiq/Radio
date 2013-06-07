@@ -1,6 +1,6 @@
 {
   "name": "radio",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Radio.js - Chainable, Dependency Free Publish/Subscribe for Javascript",
   "main": "radio.js",
   "directories": {
