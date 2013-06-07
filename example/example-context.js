@@ -7,6 +7,14 @@ function subscribeEvents(){
 
 }
 
+function subscribeNewEvents(){
+
+	console.log( 'subscribeEvents() function called' );
+
+	radio('changeTabEvent').subscribe([myAppOtherApp.init, myAppOtherApp]).broadcast();
+
+
+}
 
 function unsubscribeEvents(){
 
@@ -18,6 +26,19 @@ function unsubscribeEvents(){
 
 // Subscribed Events
 var myApp = {
+	value: 'id1',
+	init: function() {
+		this.run();
+	},
+	run: function() {
+		//do something
+		alert( 'run' );
+	}
+}
+
+// Subscribed Events
+var myAppOtherApp = {
+	value: 'id2',
 	init: function() {
 		this.run();
 	},
@@ -47,6 +68,13 @@ function init(){
 	if(el.addEventListener)
 	{
 	    el.addEventListener( "click", subscribeEvents );
+	}
+
+	// Hide
+	var el = document.getElementById("subscribe2");
+	if(el.addEventListener)
+	{
+	    el.addEventListener( "click", subscribeNewEvents );
 	}
 
 	// Hide
