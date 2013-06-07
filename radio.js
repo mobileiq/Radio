@@ -126,7 +126,7 @@
           for (var p = 0; p < channel[i].length; p++)
 
             if ( this.checkArray( channel[i][p], ai ) ) {
-              match = match + 1;
+              match += 1;
             }
 
         }
