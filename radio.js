@@ -99,18 +99,44 @@
       return this;
     },
 
+    checkArray: function(needle, haystack){
+
+      var length = haystack.length;
+
+      for(var i = 0; i < length; i++) {
+        if(haystack[i] == needle) return true;
+      }
+
+      return false;
+
+    },
+
     // Function to stop double subscriptions
-    checkSubscription: function( channel, ai ){
+    checkSubscription: function(channel, ai) {
 
-      var l = channel.length;
+      var l = channel.length,
+          match = 0;
 
-      for (var i=0;i<l;i++){
+      for (var i = 0; i < l; i++) {
 
-        if (channel[i][0] === ai){
+        match = 0;
+
+        if (channel[i].length === ai.length) {
+
+          for (var p = 0; p < channel[i].length; p++)
+
+            if ( this.checkArray( channel[i][p], ai ) ) {
+              match = match + 1;
+            }
+
+        }
+
+        if (match === ai.length){
           return true;
         }
 
       }
+
       return false;
 
     },
