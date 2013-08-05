@@ -1,4 +1,4 @@
-/**
+/** @preserve
  Radio.js - Chainable, Dependency Free Publish/Subscribe for Javascript
  http://radio.uxder.com
  Author: Scott Murphy 2011
@@ -57,6 +57,23 @@
       radio.$.channels = {};
     },
 
+    cleanup:function () {
+      var i, c = this.channels[this.channelName],
+        l = c.length,
+        subscriber, callback, context;
+      //iterate through current channel and run each subscriber
+      for (i = 0; i < l; i++) {
+        subscriber = c[i];
+        //if subscriber was an array, set the callback and context.
+        if (subscriber === null) {
+          c.splice(i, 1);
+          l = c.length;
+          i--;
+        }
+
+      }
+    },
+
     /**
      * Broadcast (publish)
      * Iterate through all listeners (callbacks) in current channel and pass arguments to subscribers
@@ -75,18 +92,19 @@
       for (i = 0; i < l; i++) {
         subscriber = c[i];
         //if subscriber was an array, set the callback and context.
-        if ((typeof(subscriber) === 'object') && (subscriber.length)) {
+        if (subscriber && (typeof(subscriber) === 'object') && (subscriber.length)) {
           callback = subscriber[0];
           //if user set the context, set it to the context otherwise, it is a globally scoped function
           context = subscriber[1] || global;
+          callback.apply(context, arguments);
         }
-        callback.apply(context, arguments);
       }
+      this.cleanup();
       return this;
     },
-
     /**
      * Create the channel if it doesn't exist and set the current channel/event name
+
      * @param {String} name the name of the channel
      * @example
      *    radio('channel1');
@@ -97,48 +115,6 @@
       if (!c[name]) c[name] = [];
       this.channelName = name;
       return this;
-    },
-
-    checkArray: function(needle, haystack){
-
-      var length = haystack.length;
-
-      for(var i = 0; i < length; i++) {
-        if(haystack[i] == needle) return true;
-      }
-
-      return false;
-
-    },
-
-    // Function to stop double subscriptions
-    checkSubscription: function(channel, ai) {
-
-      var l = channel.length,
-          match = 0;
-
-      for (var i = 0; i < l; i++) {
-
-        match = 0;
-
-        if (channel[i].length === ai.length) {
-
-          for (var p = 0; p < channel[i].length; p++)
-
-            if ( this.checkArray( channel[i][p], ai ) ) {
-              match += 1;
-            }
-
-        }
-
-        if (match === ai.length){
-          return true;
-        }
-
-      }
-
-      return false;
-
     },
 
     /**
@@ -167,19 +143,10 @@
 
       //run through each arguments and subscribe it to the channel
       for (i = 0; i < l; i++) {
-
         ai = a[i];
-
-        var alreadySubscribed = this.checkSubscription( c, ai );
-
-        if (!alreadySubscribed){
-          //if the user sent just a function, wrap the fucntion in an array [function]
-          p = (typeof(ai) === "function") ? [ai] : ai;
-          if ((typeof(p) === 'object') && (p.length)) c.push(p);
-        }else{
-          console.log( 'Duplicate subscriptions within channel: ' + this.channelName );
-        }
-
+        //if the user sent just a function, wrap the fucntion in an array [function]
+        p = (typeof(ai) === "function") ? [ai] : ai;
+        if ((typeof(p) === 'object') && (p.length)) c.push(p);
       }
       return this;
     },
@@ -199,23 +166,31 @@
     unsubscribe: function() {
       var a = arguments,
         i, j, c = this.channels[this.channelName],
-        l = a.length,
-        cl = c.length,
-        offset = 0,
-        jo;
+        cl = c.length, ai;
       //loop through each argument
-      for (i = 0; i < l; i++) {
-        //need to reset vars that change as the channel array items are removed
-        offset = 0;
-        cl = c.length;
-        //loop through the channel
+      //need to reset vars that change as the channel array items are removed
+      //loop through the channel
+
+      for (i = 0; i < a.length; i++) {
+
         for (j = 0; j < cl; j++) {
-          jo = j - offset;
           //if there is a match with the argument and the channel function, unsubscribe it from the channel array
-          if (c[jo][0] === a[i]) {
+          if (c[j]) {
             //unsubscribe matched item from the channel array
-            c.splice(jo, 1);
-            offset++;
+            //c.splice(j, 1);
+            ai = a[i];
+
+            if((typeof(ai) === "function") && c[j][0] === ai){
+              c[j] = null;
+              //break;
+            }
+            else if ((typeof(ai) === "object") && ai.length) {
+              if (c[j][0] === a[i][0] && c[j][1] === a[i][1]) {
+                c[j] = null;
+                //break;
+              }
+            }
+
           }
         }
       }
